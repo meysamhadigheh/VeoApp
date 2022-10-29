@@ -1,8 +1,9 @@
-package info.meysam.veoapp
+package info.meysam.veoapp.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import info.meysam.veoapp.ui.main.MainFragment
+import info.meysam.veoapp.R
+import info.meysam.veoapp.ui.fragments.launches.LaunchesFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, LaunchesFragment.newInstance())
                 .commitNow()
         }
     }
