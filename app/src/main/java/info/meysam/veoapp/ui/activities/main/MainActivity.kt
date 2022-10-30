@@ -1,4 +1,4 @@
-package info.meysam.veoapp.ui.activities
+package info.meysam.veoapp.ui.activities.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

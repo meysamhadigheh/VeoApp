@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
@@ -20,11 +19,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.lifecycle.Observer
 import info.meysam.veoapp.R
 import info.meysam.veoapp.data.model.Launch
 import info.meysam.veoapp.data.remote.MyApiStatus
 import info.meysam.veoapp.ui.customview.LaunchesList
+import info.meysam.veoapp.ui.fragments.launchdetails.LaunchDetailsFragment
 import info.meysam.veoapp.ui.theme.VeoAppTheme
 
 class LaunchesFragment : Fragment() {
@@ -53,7 +52,11 @@ class LaunchesFragment : Fragment() {
             setContent {
                 VeoAppTheme {
                     Surface(color = MaterialTheme.colors.background) {
-                        LaunchesLayout(getListLaunches, isLoading = isLoading)
+                        LaunchesLayout(getListLaunches, isLoading = isLoading) { launch->
+                            requireActivity().supportFragmentManager.beginTransaction()
+                                .add(R.id.container, LaunchDetailsFragment.newInstance(launch))
+                                .commitNow()
+                        }
                     }
                 }
             }
@@ -87,13 +90,13 @@ class LaunchesFragment : Fragment() {
 }
 
 @Composable
-fun LaunchesLayout(getLaunchesList : MutableList<Launch>, isLoading: Boolean) {
+fun LaunchesLayout(getLaunchesList: MutableList<Launch>, isLoading: Boolean, onLaunchClick: (Launch) -> Unit) {
     if(isLoading){
         Box(contentAlignment = Alignment.Center,
             modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator()
         }
     } else {
-        LaunchesList(listLaunches = getLaunchesList)
+        LaunchesList(listLaunches = getLaunchesList,onLaunchClick)
     }
 }

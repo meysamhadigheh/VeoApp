@@ -1,5 +1,6 @@
 package info.meysam.veoapp.ui.customview
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,13 +20,13 @@ import com.bumptech.glide.integration.compose.GlideImage
 import info.meysam.veoapp.data.model.Launch
 
 @Composable
-fun LaunchesList(listLaunches: MutableList<Launch>) {
+fun LaunchesList(listLaunches: MutableList<Launch>,onLaunchClick: (Launch) -> Unit) {
 
     LazyColumn() {
         items(
             count = listLaunches.size,
             itemContent = {
-                LaunchListItem(launch = listLaunches[it])
+                LaunchListItem(launch = listLaunches[it],onLaunchClick)
             }
         )
     }
@@ -34,12 +35,13 @@ fun LaunchesList(listLaunches: MutableList<Launch>) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun LaunchListItem(launch: Launch) {
+fun LaunchListItem(launch: Launch,onLaunchClick: (Launch) -> Unit) {
 
     Card(
         modifier = Modifier
             .padding(horizontal = 15.dp, vertical = 12.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = { onLaunchClick(launch) }),
         shape = RoundedCornerShape(corner = CornerSize(15.dp)),
         elevation = 5.dp
     ) {
@@ -55,5 +57,5 @@ fun LaunchListItem(launch: Launch) {
             )
         }
     }
-
 }
+
