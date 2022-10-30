@@ -54,7 +54,7 @@ class LaunchesFragment : Fragment() {
                     Surface(color = MaterialTheme.colors.background) {
                         LaunchesLayout(getListLaunches, isLoading = isLoading) { launch->
                             requireActivity().supportFragmentManager.beginTransaction()
-                                .add(R.id.container, LaunchDetailsFragment.newInstance(launch))
+                                .replace(R.id.container, LaunchDetailsFragment.newInstance(launch))
                                 .commitNow()
                         }
                     }

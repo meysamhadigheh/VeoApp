@@ -1,12 +1,12 @@
 package info.meysam.veoapp.data.model
 
 data class Links(
-    val article: Any,
+    val article: String?,
     val flickr: Flickr,
     val patch: Patch,
-    val presskit: Any,
+    val presskit: String?,
     val reddit: Reddit,
     val webcast: String,
-    val wikipedia: Any,
-    val youtube_id: String
+    val wikipedia: String?,
+    val youtube_id: String?
 )

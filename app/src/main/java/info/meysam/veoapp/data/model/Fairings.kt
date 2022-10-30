@@ -1,8 +1,10 @@
 package info.meysam.veoapp.data.model
 
+import java.util.UUID
+
 data class Fairings(
-    val recovered: Any,
-    val recovery_attempt: Any,
-    val reused: Any,
-    val ships: List<Any>
+    val recovered: Boolean?,
+    val recovery_attempt: Boolean?,
+    val reused: Boolean?,
+    val ships: List<UUID>
 )
