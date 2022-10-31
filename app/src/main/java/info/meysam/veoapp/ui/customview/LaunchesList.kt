@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import info.meysam.veoapp.data.model.Launch
+import info.meysam.veoapp.ui.theme.Shapes
 
 @Composable
 fun LaunchesList(listLaunches: MutableList<Launch>,onLaunchClick: (Launch) -> Unit) {
@@ -46,7 +47,7 @@ fun LaunchListItem(launch: Launch,onLaunchClick: (Launch) -> Unit) {
             .padding(horizontal = 15.dp, vertical = 12.dp)
             .fillMaxWidth()
             .clickable(onClick = { onLaunchClick(launch) }),
-        shape = RoundedCornerShape(corner = CornerSize(15.dp)),
+        shape = Shapes.small,
         elevation = 5.dp
     ) {
         GlideImage(
