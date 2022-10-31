@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.google.gson.Gson
@@ -27,18 +28,11 @@ import info.meysam.veoapp.ui.theme.VeoAppTheme
 class LaunchDetailsFragment : Fragment() {
 
     companion object {
-        fun newInstance(launch: Launch?):LaunchDetailsFragment {
-
-            val launchDetailsFragment = LaunchDetailsFragment()
-            val launchDetails = Gson().toJson(launch)
-            val args = Bundle()
-            args.putString("hello",launchDetails)
-            launchDetailsFragment.arguments = args
-            return launchDetailsFragment
-        }
     }
 
     private lateinit var viewModel: LaunchDetailsViewModel
+    private val args : LaunchDetailsFragmentArgs by navArgs()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +51,7 @@ class LaunchDetailsFragment : Fragment() {
                 VeoAppTheme {
                     Surface(color = MaterialTheme.colors.background) {
                         LaunchDetailsLayout(Gson().fromJson(
-                            arguments?.getString("hello"),
+                            args.launchData,
                             Launch::class.java
                         ))
                     }

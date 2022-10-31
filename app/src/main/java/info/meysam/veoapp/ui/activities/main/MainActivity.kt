@@ -1,19 +1,28 @@
 package info.meysam.veoapp.ui.activities.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import info.meysam.veoapp.R
-import info.meysam.veoapp.ui.fragments.launches.LaunchesFragment
+import info.meysam.veoapp.ui.activities.BaseActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun setContentViewActivity() {
         setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, LaunchesFragment.newInstance())
-                .commitNow()
-        }
+    }
+
+    override fun getIntentData() {
+    }
+
+    override fun instantiateViews() {
+    }
+
+    override fun setViewListeners() {
+    }
+
+    override fun setActivityContent() {
     }
 }

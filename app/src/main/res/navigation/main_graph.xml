@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_graph.xml"
+    app:startDestination="@id/launchesFragment">
+    <fragment
+        android:id="@+id/launchesFragment"
+        android:name="info.meysam.veoapp.ui.fragments.launches.LaunchesFragment"
+        android:label="LaunchesFragment" >
+        <action
+            android:id="@+id/action_launchesFragment_to_launchDetailFragment"
+            app:destination="@id/launchDetailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/launchDetailsFragment"
+        android:name="info.meysam.veoapp.ui.fragments.launchdetails.LaunchDetailsFragment"
+        android:label="LaunchDetailFragment">
+        <argument
+            android:name="launchData"
+            app:argType="string" />
+    </fragment>
+</navigation>

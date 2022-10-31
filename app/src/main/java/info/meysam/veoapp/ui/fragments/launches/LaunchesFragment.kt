@@ -19,6 +19,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import info.meysam.veoapp.R
 import info.meysam.veoapp.data.model.Launch
 import info.meysam.veoapp.data.remote.MyApiStatus
@@ -53,9 +57,9 @@ class LaunchesFragment : Fragment() {
                 VeoAppTheme {
                     Surface(color = MaterialTheme.colors.background) {
                         LaunchesLayout(getListLaunches, isLoading = isLoading) { launch->
-                            requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.container, LaunchDetailsFragment.newInstance(launch))
-                                .commitNow()
+                            val direction = LaunchesFragmentDirections.actionLaunchesFragmentToLaunchDetailFragment(
+                                Gson().toJson(launch))
+                            findNavController().navigate(direction)
                         }
                     }
                 }
