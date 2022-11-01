@@ -15,12 +15,9 @@ import kotlinx.coroutines.*
 class LaunchesViewModel(private val launchRepository: LaunchRepository) : ViewModel() {
 
     private val _viewState: MutableLiveData<ViewState> = MutableLiveData(
-        ViewState.Ready()
+        ViewState.Loading
     )
     val viewState: LiveData<ViewState> = _viewState
-
-    val errorMessage = MutableLiveData<String>()
-    val loading = MutableLiveData<Boolean>()
 
     var job: Job? = null
 
@@ -29,37 +26,19 @@ class LaunchesViewModel(private val launchRepository: LaunchRepository) : ViewMo
             val response = launchRepository.getAllLaunches()
             withContext(Dispatchers.Main) {
                 when (response) {
-                    is NetworkResponse.Success -> {
-
-                        viewState.value?.let { viewState ->
-                           when(viewState){
-                               is ViewState.Ready->{
-                                   _viewState.value = viewState.copy(launches = response.body)
-                               }
-                               else -> ViewState.Loading
-                           }
-                        }
-                        loading.value = false
-                    }
-                    is NetworkResponse.Error -> {
-
-                        onError("Error : ${response.error?.message} ")
-                        loading.value = false
-                    }
+                    is NetworkResponse.Success -> _viewState.postValue(ViewState.Ready(response.body))
+                    is NetworkResponse.Error -> _viewState.postValue(ViewState.Error(response.error?.message))
                     else -> ViewState.Loading
                 }
             }
         }
     }
-    private fun onError(message: String) {
-        errorMessage.value = message
-        loading.value = false
-    }
 
     sealed class ViewState{
         object Loading: ViewState()
+        data class Error(val message: String?):ViewState()
         data class Ready(
-            var launches: List<Launch> = ArrayList(),
+            val launches: List<Launch> = ArrayList(),
         ) : ViewState()
     }
 

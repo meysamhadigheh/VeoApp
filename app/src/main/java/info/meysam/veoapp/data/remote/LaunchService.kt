@@ -17,7 +17,7 @@ import kotlin.collections.ArrayList
 interface LaunchService {
 
     @GET("launches")
-    suspend fun getLaunches():NetworkResponse<ArrayList<Launch>, ErrorResponse>
+    suspend fun getLaunches():NetworkResponse<List<Launch>, ErrorResponse>
 
     companion object{
 

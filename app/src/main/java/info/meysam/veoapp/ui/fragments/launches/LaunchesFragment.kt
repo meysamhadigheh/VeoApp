@@ -61,28 +61,30 @@ class LaunchesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getAllLaunches()
     }
 
     @ExperimentalMaterialApi
     @Composable
     private fun MainContent() {
 
-        val viewState by viewModel.viewState.observeAsState()
+        val viewStateCurrent by viewModel.viewState.observeAsState()
 
-        when (val viewState = viewState) {
+        when (val viewState = viewStateCurrent) {
 
             is LaunchesViewModel.ViewState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize()) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
             }
-
             is LaunchesViewModel.ViewState.Ready -> {
                 LaunchesLayout(viewState = viewState,
-                    onLaunchClick = {launch ->  viewModel.onLaunchItemCLicked(this, launch) })
+                    onLaunchClick = { launch -> viewModel.onLaunchItemCLicked(this, launch) })
+            }
+            is LaunchesViewModel.ViewState.Error -> {
+                displayNetworkError(viewState.message)
             }
             null -> {}
-
         }
 
     }
@@ -90,18 +92,21 @@ class LaunchesFragment : Fragment() {
      * Displays a Network error alert dialog to the user
      *
      */
-    private fun displayNetworkError() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.oups)
-            .setMessage(R.string.an_error_occurred)
-            .setPositiveButton("retry") { dialogInterface, i ->
-                viewModel.getAllLaunches()
-            }
-            .setNegativeButton(android.R.string.cancel
-            ) { dialogInterface, i ->
-                activity?.onBackPressed()
-            }
-            .show()
+    private fun displayNetworkError(message: String?) {
+        message?.let {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.oups)
+                .setMessage(String.format(resources.getString(R.string.an_error_occurred), it))
+                .setPositiveButton("retry") { dialogInterface, i ->
+                    viewModel.getAllLaunches()
+                }
+                .setNegativeButton(
+                    android.R.string.cancel
+                ) { dialogInterface, i ->
+                    activity?.onBackPressed()
+                }
+                .show()
+        }
     }
 }
 
