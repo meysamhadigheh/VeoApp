@@ -1,11 +1,9 @@
 package info.meysam.veoapp.ui.fragments.launches
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.haroldadmin.cnradapter.NetworkResponse
 import info.meysam.veoapp.data.model.Launch
