@@ -77,12 +77,12 @@ fun LaunchDetailsLayout(launch: Launch? = null) {
                 modifier = Modifier.padding(all = 15.dp)
             ) {
                 Text(it.name +  " | " +it.date_utc)
-                Text(it.rocket)
-                GlideImage(
-                    model = it.links.patch.small,
-                    contentDescription = null,
-                    modifier = Modifier.size(72.dp),
-                )
+//                Text(it.rocket)
+//                GlideImage(
+//                    model = it.links.patch.small,
+//                    contentDescription = null,
+//                    modifier = Modifier.size(72.dp),
+//                )
             }
         }
     }

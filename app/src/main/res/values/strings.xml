@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">VeoApp</string>
+    <string name="oups">Oups!</string>
+    <string name="retry">retry</string>
+    <string name="an_error_occurred">An error occurred</string>
+
 </resources>

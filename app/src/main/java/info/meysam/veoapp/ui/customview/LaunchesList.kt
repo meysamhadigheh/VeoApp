@@ -17,7 +17,7 @@ import info.meysam.veoapp.data.model.Launch
 import info.meysam.veoapp.ui.theme.Shapes
 
 @Composable
-fun LaunchesList(listLaunches: MutableList<Launch>,onLaunchClick: (Launch) -> Unit) {
+fun LaunchesList(listLaunches: List<Launch>,onLaunchClick: (Launch) -> Unit) {
 
     LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 128.dp)) {
         items(
@@ -34,13 +34,13 @@ fun LaunchesList(listLaunches: MutableList<Launch>,onLaunchClick: (Launch) -> Un
 fun LaunchListItem(launch: Launch,onLaunchClick: (Launch) -> Unit) {
     val imageLink:String?
 
-    with(launch.links){
-        imageLink = if (flickr.original.isNotEmpty()){
-            flickr.original[0]
-        }else{
-            patch.large
-        }
-    }
+//    with(launch.links){
+//        imageLink = if (flickr.original.isNotEmpty()){
+//            flickr.original[0]
+//        }else{
+//            patch.large
+//        }
+//    }
 
     Card(
         modifier = Modifier
@@ -50,12 +50,12 @@ fun LaunchListItem(launch: Launch,onLaunchClick: (Launch) -> Unit) {
         shape = Shapes.small,
         elevation = 5.dp
     ) {
-        GlideImage(
-            model = imageLink,
-            contentDescription = launch.name,
-            modifier = Modifier.fillMaxSize().aspectRatio(0.5F),
-            contentScale = if (launch.links.flickr.original.isNotEmpty()) ContentScale.Crop else ContentScale.Fit
-        )
+//        GlideImage(
+//            model = imageLink,
+//            contentDescription = launch.name,
+//            modifier = Modifier.fillMaxSize().aspectRatio(0.5F),
+//            contentScale = if (launch.links.flickr.original.isNotEmpty()) ContentScale.Crop else ContentScale.Fit
+//        )
     }
 }
 
