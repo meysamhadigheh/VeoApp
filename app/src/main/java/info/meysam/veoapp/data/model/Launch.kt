@@ -26,3 +26,13 @@ data class Launch(
     val upcoming: Boolean,
     val window: Int?
 )
+
+val sampleLaunch = Launch(
+    true, emptyList(), emptyList(), "", "", 0, "", null, emptyList(),
+    Fairing(null, null, null), 0, "", null,
+    Links(
+        null, Flickr(original = listOf("https://live.staticflickr.com/65535/49635401403_96f9c322dc_o.jpg"), emptyList()),
+        Patch(null, null), null,
+        Reddit(null, null, null, null), null, null, null
+    ), "", true, emptyList(), null, null, null, null, true, true, 0
+)
