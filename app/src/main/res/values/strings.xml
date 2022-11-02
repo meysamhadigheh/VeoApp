@@ -3,5 +3,15 @@
     <string name="oups">Oups!</string>
     <string name="retry">retry</string>
     <string name="an_error_occurred">An error occurred \n %s</string>
+    <string name="core">Core</string>
+    <string name="flight">Flight</string>
+    <string name="gridfins">Gridfins</string>
+    <string name="cores_title">Cores</string>
+    <string name="legs">Legs</string>
+    <string name="reused">Reused</string>
+    <string name="landing_attempt">Landing Attempt</string>
+    <string name="landing_success">Landing Success</string>
+    <string name="landing_type">Landing Type</string>
+    <string name="landpad">Landpad</string>
 
 </resources>
