@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.fragment.navArgs
 import com.google.gson.Gson
 import info.meysam.veoapp.R
@@ -66,6 +67,28 @@ fun LaunchDetailsLayout(launch: Launch? = null) {
 
     launch?.let {
         Column {
+            MyBasicCard(modifier = Modifier) {
+                TitleView(title = stringResource(R.string.info))
+                TextWithDetail(title = stringResource(R.string.name), detail = launch.name)
+                TextWithDetail(title = stringResource(R.string.fire_date), detail = launch.getFireDate())
+                TextWithDetail(title = stringResource(R.string.window), detail = launch.window.toString())
+                TextWithDetail(title = stringResource(R.string.rocket), detail = launch.rocket)
+                TextWithState(title = stringResource(R.string.success), status = launch.success)
+                TextWithState(title = stringResource(R.string.upcoming), status = launch.upcoming)
+                TextWithDetail(title = stringResource(R.string.flight_number), detail = launch.name)
+            }
+            launch.details?.let {
+                MyBasicCard(modifier = Modifier) {
+                    TitleView(title = stringResource(R.string.details))
+                    Text(
+                        text = it,
+                        style = Typography.caption,
+                        color = Color.White,
+                        modifier = Modifier.padding(6.dp).padding(bottom = 10.dp),
+                        lineHeight = 17.sp
+                    )
+                }
+            }
             MyBasicCard(modifier = Modifier) {
                 TitleView(title = stringResource(R.string.cores_title))
                 launch.cores.forEach {
@@ -177,9 +200,11 @@ fun TextWithDetail(title: String?, detail: String?) {
             text = detail,
             style = Typography.caption,
             color = Color.White,
-            modifier = Modifier.align(
-                Alignment.CenterEnd
-            )
+            modifier = Modifier
+                .align(
+                    Alignment.CenterEnd
+                )
+                .padding(end = 4.dp)
         )
     }
 }

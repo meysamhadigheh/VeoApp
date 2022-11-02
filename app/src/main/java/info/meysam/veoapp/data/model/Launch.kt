@@ -1,4 +1,6 @@
 package info.meysam.veoapp.data.model
+import java.text.SimpleDateFormat
+import java.util.*
 
 data class Launch(
     val auto_update: Boolean,
@@ -25,7 +27,22 @@ data class Launch(
     val tdb: Boolean,
     val upcoming: Boolean,
     val window: Int?
-)
+){
+    /**
+     * Change date format to show in 3 char month format
+     *
+     */
+
+    fun getFireDate():String?{
+        if (static_fire_date_utc==null) return null
+        val firstDate = static_fire_date_utc
+        val englishIsrael = Locale.forLanguageTag("en-US")
+        val formatter = SimpleDateFormat("yyyy-MM-dd",englishIsrael)
+        val date = formatter.parse(firstDate)
+        val desiredFormat = SimpleDateFormat("dd, MMM yyyy",englishIsrael).format(date)
+        return desiredFormat
+    }
+}
 
 val sampleLaunch = Launch(
     true, emptyList(), emptyList(), "", "", 0, "", null, emptyList(),

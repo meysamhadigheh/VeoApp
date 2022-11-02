@@ -13,5 +13,14 @@
     <string name="landing_success">Landing Success</string>
     <string name="landing_type">Landing Type</string>
     <string name="landpad">Landpad</string>
+    <string name="info">Info</string>
+    <string name="name">Name</string>
+    <string name="fire_date">Fire Date</string>
+    <string name="window">Window</string>
+    <string name="rocket">Rocket</string>
+    <string name="success">Success</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="flight_number">Flight Number</string>
+    <string name="details">Details</string>
 
 </resources>
