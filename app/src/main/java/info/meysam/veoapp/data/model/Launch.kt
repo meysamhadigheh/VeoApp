@@ -37,9 +37,9 @@ data class Launch(
         if (static_fire_date_utc==null) return null
         val firstDate = static_fire_date_utc
         val englishIsrael = Locale.forLanguageTag("en-US")
-        val formatter = SimpleDateFormat("yyyy-MM-dd",englishIsrael)
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",englishIsrael)
         val date = formatter.parse(firstDate)
-        val desiredFormat = SimpleDateFormat("dd, MMM yyyy",englishIsrael).format(date)
+        val desiredFormat = SimpleDateFormat("dd, MMM yyyy - HH:mm",englishIsrael).format(date)
         return desiredFormat
     }
 }
