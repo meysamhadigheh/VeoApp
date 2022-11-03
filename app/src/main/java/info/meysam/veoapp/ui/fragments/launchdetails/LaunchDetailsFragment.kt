@@ -6,9 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -17,12 +15,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
 import com.google.gson.Gson
 import info.meysam.veoapp.R
 import info.meysam.veoapp.data.model.Launch
@@ -57,7 +62,7 @@ class LaunchDetailsFragment : Fragment() {
                                 args.launchData,
                                 Launch::class.java
                             )
-                        ) { id -> viewModel.openYoutube(requireContext(),id) }
+                        ) { id -> viewModel.openYoutube(requireContext(), id) }
                     }
                 }
             }
@@ -65,25 +70,59 @@ class LaunchDetailsFragment : Fragment() {
     }
 }
 
+@OptIn(ExperimentalPagerApi::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun LaunchDetailsLayout(launch: Launch? = null, youtubeClick: (String) -> Unit) {
 
     launch?.let {
-        Column {
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                if (launch.links.flickr.original.isNotEmpty()) {
+                    with(launch.links.flickr.original) {
+                        HorizontalPager(
+                            count = launch.links.flickr.original.size,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(1F)
+                                .padding(bottom = 32.5.dp)
 
-            launch.links.webcast?.let {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_baseline_ondemand_video_24),
-                    contentDescription = "youtube",
-                    modifier = Modifier
-                        .size(65.dp)
-                        .clip(CircleShape)
-                        .background(Color.Red, shape = CircleShape)
-                        .clickable(onClick = {
-                            youtubeClick(it)
-                        })
-                        .padding(8.dp)
-                )
+                        ) { page ->
+                            // Our page content
+                            GlideImage(
+                                model = this@with[page],
+                                contentDescription = "",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    }
+                } else {
+                    GlideImage(
+                        model = it.links.patch.large,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1F)
+                            .padding(bottom = 32.5.dp)
+                    )
+                }
+                launch.links.webcast?.let {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_baseline_ondemand_video_24),
+                        contentDescription = "youtube",
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(65.dp)
+                            .clip(CircleShape)
+                            .background(Color.Red, shape = CircleShape)
+                            .clickable(onClick = { youtubeClick(it) })
+                            .padding(8.dp)
+                            .align(Alignment.BottomEnd)
+                            .graphicsLayer {
+                                translationY = 5f
+                            }
+                    )
+                }
             }
 
             MyBasicCard(modifier = Modifier) {
