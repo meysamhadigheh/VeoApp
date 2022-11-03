@@ -22,18 +22,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.gson.Gson
 import info.meysam.veoapp.R
 import info.meysam.veoapp.data.model.Launch
 import info.meysam.veoapp.ui.theme.Shapes
 import info.meysam.veoapp.ui.theme.Typography
 import info.meysam.veoapp.ui.theme.VeoAppTheme
+import kotlin.math.absoluteValue
+import androidx.compose.ui.util.lerp
 
 class LaunchDetailsFragment : Fragment() {
 
@@ -82,18 +84,46 @@ fun LaunchDetailsLayout(launch: Launch? = null, youtubeClick: (String) -> Unit) 
                         HorizontalPager(
                             count = launch.links.flickr.original.size,
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .aspectRatio(1F)
+
                                 .padding(bottom = 32.5.dp)
 
                         ) { page ->
                             // Our page content
-                            GlideImage(
-                                model = this@with[page],
-                                contentDescription = "",
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier.fillMaxSize()
-                            )
+                            Card(
+                                Modifier
+                                    .graphicsLayer {
+                                        // Calculate the absolute offset for the current page from the
+                                        // scroll position. We use the absolute value which allows us to mirror
+                                        // any effects for both directions
+                                        val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+
+                                        // We animate the scaleX + scaleY, between 85% and 100%
+                                        lerp(
+                                            start = 0.8f,
+                                            stop = 0.9f,
+                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                        ).also { scale ->
+                                            scaleX = scale
+                                            scaleY = scale
+                                        }
+
+                                        // We animate the alpha, between 50% and 100%
+                                        alpha = lerp(
+                                            start = 0.5f,
+                                            stop = 1f,
+                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                        )
+                                    }
+                            ) {
+                                GlideImage(
+                                    model = this@with[page],
+                                    contentDescription = "",
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.fillMaxSize()
+                                        .aspectRatio(1F)
+                                )
+                            }
+
                         }
                     }
                 } else {
