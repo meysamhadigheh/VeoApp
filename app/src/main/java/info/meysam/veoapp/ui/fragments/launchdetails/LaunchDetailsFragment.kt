@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
@@ -54,7 +57,7 @@ class LaunchDetailsFragment : Fragment() {
                                 args.launchData,
                                 Launch::class.java
                             )
-                        )
+                        ) { id -> viewModel.openYoutube(requireContext(),id) }
                     }
                 }
             }
@@ -63,15 +66,37 @@ class LaunchDetailsFragment : Fragment() {
 }
 
 @Composable
-fun LaunchDetailsLayout(launch: Launch? = null) {
+fun LaunchDetailsLayout(launch: Launch? = null, youtubeClick: (String) -> Unit) {
 
     launch?.let {
         Column {
+
+            launch.links.webcast?.let {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_baseline_ondemand_video_24),
+                    contentDescription = "youtube",
+                    modifier = Modifier
+                        .size(65.dp)
+                        .clip(CircleShape)
+                        .background(Color.Red, shape = CircleShape)
+                        .clickable(onClick = {
+                            youtubeClick(it)
+                        })
+                        .padding(8.dp)
+                )
+            }
+
             MyBasicCard(modifier = Modifier) {
                 TitleView(title = stringResource(R.string.info))
                 TextWithDetail(title = stringResource(R.string.name), detail = launch.name)
-                TextWithDetail(title = stringResource(R.string.fire_date), detail = launch.getFireDate())
-                TextWithDetail(title = stringResource(R.string.window), detail = launch.window.toString())
+                TextWithDetail(
+                    title = stringResource(R.string.fire_date),
+                    detail = launch.getFireDate()
+                )
+                TextWithDetail(
+                    title = stringResource(R.string.window),
+                    detail = launch.window.toString()
+                )
                 TextWithDetail(title = stringResource(R.string.rocket), detail = launch.rocket)
                 TextWithState(title = stringResource(R.string.success), status = launch.success)
                 TextWithState(title = stringResource(R.string.upcoming), status = launch.upcoming)
@@ -84,7 +109,9 @@ fun LaunchDetailsLayout(launch: Launch? = null) {
                         text = it,
                         style = Typography.caption,
                         color = Color.White,
-                        modifier = Modifier.padding(6.dp).padding(bottom = 10.dp),
+                        modifier = Modifier
+                            .padding(6.dp)
+                            .padding(bottom = 10.dp),
                         lineHeight = 17.sp
                     )
                 }
@@ -94,13 +121,25 @@ fun LaunchDetailsLayout(launch: Launch? = null) {
                 launch.cores.forEach {
                     Separator()
                     TextWithDetail(title = stringResource(R.string.core), detail = it.core)
-                    TextWithDetail(title = stringResource(R.string.flight), detail = it.flight.toString())
+                    TextWithDetail(
+                        title = stringResource(R.string.flight),
+                        detail = it.flight.toString()
+                    )
                     TextWithState(title = stringResource(R.string.gridfins), status = it.gridfins)
                     TextWithState(title = stringResource(R.string.legs), status = it.legs)
                     TextWithState(title = stringResource(R.string.reused), status = it.reused)
-                    TextWithState(title = stringResource(R.string.landing_attempt), status = it.landing_attempt)
-                    TextWithState(title = stringResource(R.string.landing_success), status = it.landing_success)
-                    TextWithDetail(title = stringResource(R.string.landing_type), detail = it.landing_type)
+                    TextWithState(
+                        title = stringResource(R.string.landing_attempt),
+                        status = it.landing_attempt
+                    )
+                    TextWithState(
+                        title = stringResource(R.string.landing_success),
+                        status = it.landing_success
+                    )
+                    TextWithDetail(
+                        title = stringResource(R.string.landing_type),
+                        detail = it.landing_type
+                    )
                     TextWithDetail(title = stringResource(R.string.landpad), detail = it.landpad)
                 }
             }
