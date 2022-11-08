@@ -79,7 +79,7 @@ fun LaunchDetailsLayout(launch: Launch? = null, youtubeClick: (String) -> Unit) 
     launch?.let {
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Box(modifier = Modifier.fillMaxWidth()) {
-                if (launch.links.flickr.original.isNotEmpty()) {
+                if (launch.links?.flickr?.original?.isNotEmpty() == true) {
                     with(launch.links.flickr.original) {
                         HorizontalPager(
                             count = launch.links.flickr.original.size,
@@ -128,7 +128,7 @@ fun LaunchDetailsLayout(launch: Launch? = null, youtubeClick: (String) -> Unit) 
                     }
                 } else {
                     GlideImage(
-                        model = it.links.patch.large,
+                        model = it.links?.patch?.large,
                         contentDescription = "",
                         modifier = Modifier
                             .fillMaxWidth()
@@ -136,7 +136,7 @@ fun LaunchDetailsLayout(launch: Launch? = null, youtubeClick: (String) -> Unit) 
                             .padding(bottom = 32.5.dp)
                     )
                 }
-                launch.links.webcast?.let {
+                launch.links?.webcast?.let {
                     Image(
                         painter = painterResource(id = R.drawable.ic_baseline_ondemand_video_24),
                         contentDescription = "youtube",

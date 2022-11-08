@@ -46,10 +46,10 @@ fun LaunchListItem(launch: Launch, onLaunchClick: (Launch) -> Unit, imageDefault
 
 
     with(launch.links) {
-        imageLink = if (flickr.original.isNotEmpty()) {
-            flickr.original[0]
+        imageLink = if (this?.flickr?.original?.isNotEmpty() == true) {
+            this.flickr.original[0]
         } else {
-            patch.large
+            this?.patch?.large
         }
     }
 
@@ -71,7 +71,7 @@ fun LaunchListItem(launch: Launch, onLaunchClick: (Launch) -> Unit, imageDefault
                 contentDescription = launch.name,
                 modifier = Modifier
                     .fillMaxSize(),
-                contentScale = if (launch.links.flickr.original.isNotEmpty()) ContentScale.Crop else ContentScale.Fit
+                contentScale = if (launch.links?.flickr?.original?.isNotEmpty() == true) ContentScale.Crop else ContentScale.Fit
             )
             Box(
                 modifier = Modifier
@@ -87,14 +87,16 @@ fun LaunchListItem(launch: Launch, onLaunchClick: (Launch) -> Unit, imageDefault
                     ),
             ) {
                 Column(Modifier.padding(start = 6.dp, bottom = 12.dp, top = 20.dp, end = 6.dp)) {
-                    Text(
-                        text = launch.name,
-                        color = Color.White,
-                        style = Typography.body1,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
+                    launch.name?.let {
+                        Text(
+                            text = it,
+                            color = Color.White,
+                            style = Typography.body1,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                    }
                     launch.details?.let {
                         Text(
                             text = it,
